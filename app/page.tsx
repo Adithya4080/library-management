@@ -1,8 +1,12 @@
+// app/page.tsx
+
 'use client';
 
 import { useState, useEffect } from 'react';
 import { IBook, IUser, BORROWING_LIMIT } from '@/types';
 import BookList from './components/BookList';
+import BorrowedBooks from './components/BorrowedBooks';
+import UserSelector from './components/UserSelector';
 import { BookOpen, Users, Library as LibraryIcon } from 'lucide-react';
 
 export default function Home() {
@@ -153,6 +157,14 @@ export default function Home() {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* User Selector */}
+        <div className="mb-8">
+          <UserSelector
+            users={users}
+            selectedUserId={selectedUserId}
+            onSelectUser={setSelectedUserId}
+          />
+        </div>
 
         {/* Info Banner */}
         {selectedUser && (
@@ -171,6 +183,14 @@ export default function Home() {
               books={books}
               onBorrowBook={handleBorrowBook}
               selectedUser={selectedUser}
+            />
+          </div>
+
+          {/* Borrowed Books */}
+          <div className="lg:col-span-1">
+            <BorrowedBooks
+              borrowedBooks={selectedUser?.borrowedBooks || []}
+              onReturnBook={handleReturnBook}
             />
           </div>
         </div>
